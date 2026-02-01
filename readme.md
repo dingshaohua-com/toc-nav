@@ -1,4 +1,5 @@
 # toc-nav
+我尝试了 [neotoc](https://neotoc.vercel.app) 和 [tocbot](https://tscanlin.github.io/tocbot)，都不太满意，两者都是以文档为滚动区域，如果DIV局部滚动则不支持，而且实现代码量都非常巨大，也没有使用浏览更为先进的API！
 
 一个轻量级的目录导航组件，自动生成页面标题的可交互目录菜单，支持滚动高亮和平滑跳转。
 
