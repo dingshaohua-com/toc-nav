@@ -4,9 +4,7 @@
 
 ## 📺 在线演示
 
-[查看在线演示](https://你的用户名.github.io/toc-nav/) | [查看源码](https://github.com/你的用户名/toc-nav)
-
-> **提示**: 将上面的 `你的用户名` 替换为你的 GitHub 用户名，并在 GitHub 仓库设置中启用 GitHub Pages（选择 `docs` 目录作为源）。
+[查看在线演示](https://dingshaohua-com.github.io/toc-nav/) | [查看源码](https://github.com/dingshaohua-com/toc-nav)
 
 ## 特性
 
@@ -21,25 +19,13 @@
 
 ## 安装
 
-### 方式 1：npm 安装（推荐）
+使用 npm 安装（推荐）
 
 ```bash
 npm install toc-nav
 ```
 
-或使用 yarn：
-
-```bash
-yarn add toc-nav
-```
-
-或使用 pnpm：
-
-```bash
-pnpm add toc-nav
-```
-
-### 方式 2：CDN 引入
+或使用 CDN 引入
 
 ```html
 <!-- 引入组件 -->
@@ -64,7 +50,7 @@ pnpm add toc-nav
 
 1. 克隆项目并安装依赖
 ```bash
-git clone https://github.com/你的用户名/toc-nav.git
+git clone https://github.com/dingshaohua-com/toc-nav.git
 cd toc-nav
 npm install
 ```
@@ -87,15 +73,8 @@ npm run build
 
 ### npm 方式
 
-#### 1. 引入样式
-
 ```javascript
 import 'toc-nav/style.css';
-```
-
-#### 2. 创建实例
-
-```javascript
 import { TocMenu } from 'toc-nav';
 
 // 创建目录容器
@@ -406,7 +385,7 @@ git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://github.com/你的用户名/toc-nav.git
+git remote add origin https://github.com/dingshaohua-com/toc-nav.git
 git push -u origin main
 ```
 
@@ -418,7 +397,7 @@ git push -u origin main
    - 点击 `Save`
 
 3. **访问你的示例页面**
-   - 几分钟后，访问 `https://你的用户名.github.io/toc-nav/`
+   - 几分钟后，访问 `https://dingshaohua-com.github.io/toc-nav/`
    - 即可看到完整的在线演示
 
 > **注意**: 确保在部署前先运行 `npm run build` 构建项目，否则示例页面无法正常加载组件。
