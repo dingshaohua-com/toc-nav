@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output (keep for GitHub Pages demo)
+# dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Claude settings (local only)
+.claude/settings.local.json
