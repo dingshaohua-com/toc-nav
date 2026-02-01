@@ -1,6 +1,22 @@
 import type { TocItem } from './type';
 
 /**
+ * 获取实际的滚动元素及其滚动属性
+ * 兼容 document 和普通 HTMLElement
+ */
+const getScrollInfo = (container: HTMLElement | Document) => {
+  const isDocument = container === document || container === document.body;
+  const scrollElement = isDocument ? document.documentElement : (container as HTMLElement);
+
+  return {
+    scrollTop: scrollElement.scrollTop,
+    scrollHeight: scrollElement.scrollHeight,
+    clientHeight: scrollElement.clientHeight,
+    element: scrollElement
+  };
+};
+
+/**
  * 获取url中的锚点信息
  * @returns
  */
@@ -76,25 +92,25 @@ export const scanHeadings = (contentElement: HTMLElement | Document) => {
 
 /**
  *
- * @param container 滚动容器元素
+ * @param container 滚动容器元素（支持 HTMLElement 或 document）
  * @param targetEl 当前要检查的元素
  * @returns
  */
-export const checkScrollMove = (container: HTMLElement, targetEl: HTMLElement) => {
+export const checkScrollMove = (container: HTMLElement | Document, targetEl: HTMLElement) => {
   // ---  如果点击目标和当前位置相等，说名不需要执行滚动 (防止原地踏步导致的锁死) ---
-  const startTop = container.scrollTop;
-  const maxScroll = container.scrollHeight - container.clientHeight;
+  const { scrollTop, scrollHeight, clientHeight } = getScrollInfo(container);
+  const maxScroll = scrollHeight - clientHeight;
   const targetTop = Math.max(0, Math.min(targetEl.offsetTop, maxScroll));
-  return Math.abs(startTop - targetTop) > 1;
+  return Math.abs(scrollTop - targetTop) > 1;
 };
 
 /**
  * 检测是否滚动到容器底部
- * @param container
+ * @param container 滚动容器元素（支持 HTMLElement 或 document）
  * @returns
  */
-export const checkIsBottom = (container: HTMLElement) => {
-  const { scrollTop, scrollHeight, clientHeight } = container;
+export const checkIsBottom = (container: HTMLElement | Document) => {
+  const { scrollTop, scrollHeight, clientHeight } = getScrollInfo(container);
   // 1. 增加容错值到 100px (敲回车产生的高度通常在 20-50px 之间)
   // 2. 使用 Math.ceil 防止像素舍入误差
   const offset = 100;

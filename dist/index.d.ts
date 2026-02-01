@@ -1,5 +1,5 @@
 interface Config {
-    contentElement: HTMLElement;
+    contentElement: HTMLElement | Document;
     tocElement: HTMLElement;
     useHash: boolean;
 }

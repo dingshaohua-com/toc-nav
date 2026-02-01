@@ -25,14 +25,14 @@
 npm install toc-nav
 ```
 
-或使用 CDN 引入
+或使用 CDN 引入，将项目内的 dist/index.global.js 拿出来用
 
 ```html
 <!-- 引入组件 -->
-<script src="https://unpkg.com/toc-nav/dist/index.global.js"></script>
+<script src="./toc-nav/dist/index.global.js"></script>
 
 <!-- 引入样式 -->
-<link rel="stylesheet" href="https://unpkg.com/toc-nav/src/style.css">
+<link rel="stylesheet" href="./toc-nav/dist/style.css">
 
 <script>
   // 全局变量 TocMenu 可用
@@ -74,7 +74,7 @@ npm run build
 ### npm 方式
 
 ```javascript
-import 'toc-nav/style.css';
+import 'toc-nav/dist/style.css';
 import { TocMenu } from 'toc-nav';
 
 // 创建目录容器
@@ -95,7 +95,7 @@ const toc = new TocMenu({
 <html>
 <head>
   <title>TOC Menu Demo</title>
-  <link rel="stylesheet" href="https://unpkg.com/toc-nav/src/style.css">
+  <link rel="stylesheet" href="./toc-nav/dist/style.css">
 </head>
 <body>
   <!-- 目录容器 -->
@@ -116,7 +116,7 @@ const toc = new TocMenu({
     <p>内容...</p>
   </div>
 
-  <script src="https://unpkg.com/toc-nav/dist/index.global.js"></script>
+  <script src="./toc-nav/dist/index.global.js"></script>
   <script>
     new TocMenu.TocMenu({
       contentElement: document.getElementById('content'),

@@ -5,7 +5,7 @@ export interface TocItem {
 }
 
 export interface Config {
-  contentElement: HTMLElement;
+  contentElement: HTMLElement | Document;
   tocElement: HTMLElement;
   useHash: boolean;
 }

@@ -28,16 +28,19 @@ export class TocMenu {
     // 在 scroll 事件中保底， 而不是在 Observer 中
     const regestContentScroll = () => {
       const container = this.config.contentElement;
+      // 兼容 document 的情况：document 不支持 scroll 事件，需要监听 window
+      const scrollTarget = container === document || container === document.body ? window : container;
+
       const onContentScrollHandler = () => {
         if (this.isManualScrolling) return;
         const isBottom = checkIsBottom(container);
         console.log('isBottom', isBottom);
 
         this.isScrollBottom = isBottom;
-        // 此时不再信任 IntersectionObserver 的“碰线”逻辑：直接把高亮给最后一个
+        // 此时不再信任 IntersectionObserver 的"碰线"逻辑：直接把高亮给最后一个
         if (isBottom) this.doHighlight(this.tocData[this.tocData.length - 1].id);
       };
-      container.addEventListener('scroll', onContentScrollHandler, { passive: true });
+      scrollTarget.addEventListener('scroll', onContentScrollHandler, { passive: true });
     };
     // 初始化Hash
     const hash = getHash();
@@ -47,7 +50,11 @@ export class TocMenu {
         if (element) {
           this.doHighlight(hash);
           element.scrollIntoView();
-          this.config.contentElement.addEventListener('scrollend', regestContentScroll, { once: true });
+          // 兼容 document 的情况：document 不支持 scrollend 事件，需要监听 window
+          const scrollTarget = this.config.contentElement === document || this.config.contentElement === document.body
+            ? window
+            : this.config.contentElement;
+          scrollTarget.addEventListener('scrollend', regestContentScroll, { once: true });
           resizeObserver.disconnect();
         } else console.error('锚点不存在哦');
       });
@@ -79,8 +86,13 @@ export class TocMenu {
         }
       }
     };
+    // IntersectionObserver 的 root 参数：document 时传 null（表示视口），HTMLElement 时传元素本身
+    const root = this.config.contentElement === document || this.config.contentElement === document.body
+      ? null
+      : this.config.contentElement;
+
     this.observer = new IntersectionObserver(onObserver, {
-      root: this.config.contentElement,
+      root,
       rootMargin: '10px 0px -90% 0px', // 根元素的外边距
       // threshold: Array.from({ length: 10 }, (_, i) => i * 0.1),
     });
@@ -110,7 +122,9 @@ export class TocMenu {
 
       // --- 否则才滚动 ---
       targetEl.scrollIntoView({ behavior: 'smooth' });
-      container.addEventListener('scrollend', () => (this.isManualScrolling = false), { once: true });
+      // 兼容 document 的情况：document 不支持 scrollend 事件，需要监听 window
+      const scrollTarget = container === document || container === document.body ? window : container;
+      scrollTarget.addEventListener('scrollend', () => (this.isManualScrolling = false), { once: true });
     }
   }
 
