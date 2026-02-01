@@ -8,232 +8,62 @@
 
   <!-- 引入组件样式 -->
   <link rel="stylesheet" href="./dist/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.5.10/dist/typography.min.css">
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <style type="text/tailwindcss">
+    /* typography主打报纸排版，所以很多风格都不合适现代 */
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    @layer components {
+      .prose-custom {
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: #f5f5f5;
-    }
+        /* 强制重置 prose 内部 code 和 blockquote 的 content 的引号字符（西方习惯） */
+        & blockquote p:first-of-type::before,
+        & blockquote p:last-of-type::after,
+        & code::before,
+        & code::after {
+          content: none;
+          /* 或者 "" */
+        }
 
-    .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+        /* 0. 先把基础的排版骨架“继承”过来 */
+        @apply prose max-w-none;
 
-    .header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
+        /* 1. 基础文字：语雀偏好深灰色而非纯黑 */
+        @apply text-gray-700 leading-7;
 
-    .header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
+        /* 2. 链接：语雀标志性的蓝色 */
+        @apply prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-500;
 
-    .github-link {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.5rem 1.5rem;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
+        /* 3. 行内代码：淡灰色底，无反引号 */
+        /* @apply prose-code:before:content-none prose-code:after:content-none; */
+        /* @apply prose-code:bg-[#f2f2f2] prose-code:text-[#ff4d4f] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-sm prose-code:mx-1 prose-code:font-normal; */
 
-    .github-link:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
+        /* 4. 引用块：语雀最经典的左侧粗线 */
+        @apply prose-blockquote:border-l-[3px] prose-blockquote:border-[#e8e8e8] prose-blockquote:pl-4 prose-blockquote:text-[#8c8c8c] prose-blockquote:not-italic;
 
-    .container {
-      max-width: 1400px;
-      margin: 2rem auto;
-      display: flex;
-      gap: 2rem;
-      padding: 0 1rem;
-    }
+        /* 5. 标题：语雀的标题间距比较紧凑 */
+        @apply prose-h1:text-[28px] prose-h1:font-semibold prose-h1:mt-8 prose-h1:mb-4;
+        @apply prose-h2:text-[24px] prose-h2:font-semibold prose-h2:mt-6 prose-h2:mb-3;
 
-    /* 目录侧边栏 */
-    .toc-sidebar {
-      flex: 0 0 280px;
-      position: sticky;
-      top: 2rem;
-      height: fit-content;
-      max-height: calc(100vh - 4rem);
-      overflow-y: auto;
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+        /* 6. 分割线 */
+        @apply prose-hr:border-[#e8e8e8] prose-hr:my-8;
 
-    .toc-sidebar h3 {
-      margin-bottom: 1rem;
-      color: #667eea;
-      font-size: 1.2rem;
-    }
-
-    #toc-container {
-      /* 目录容器 */
-    }
-
-    /* 内容区域 */
-    .content-wrapper {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .content {
-      background: white;
-      padding: 3rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      max-height: calc(100vh - 4rem);
-      overflow-y: auto;
-      scroll-behavior: smooth;
-    }
-
-    .content h1 {
-      color: #667eea;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #667eea;
-    }
-
-    .content h1:first-child {
-      margin-top: 0;
-    }
-
-    .content h2 {
-      color: #764ba2;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .content h3 {
-      color: #555;
-      margin-top: 1.5rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .content p {
-      margin-bottom: 1rem;
-      text-align: justify;
-    }
-
-    .content code {
-      background: #f4f4f4;
-      padding: 0.2rem 0.5rem;
-      border-radius: 3px;
-      font-family: 'Courier New', monospace;
-      color: #e83e8c;
-    }
-
-    .content pre {
-      background: #2d2d2d;
-      color: #f8f8f2;
-      padding: 1rem;
-      border-radius: 5px;
-      overflow-x: auto;
-      margin: 1rem 0;
-    }
-
-    .content pre code {
-      background: none;
-      color: inherit;
-      padding: 0;
-    }
-
-    .usage-example {
-      background: #f8f9ff;
-      border-left: 4px solid #667eea;
-      padding: 1rem;
-      margin: 1rem 0;
-      border-radius: 5px;
-    }
-
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
+        /* 仅针对【行内代码】定制样式 (排除在 pre 内部的 code) */
+        :not(pre)>code {
+          @apply bg-slate-100 text-pink-500 rounded px-1.5 py-0.5 mx-0.5;
+          @apply font-mono text-[0.9em] border border-slate-200 font-normal;
+          /* 加上淡淡的边框和缩放，会更有质感 */
+        }
       }
-
-      .toc-sidebar {
-        position: static;
-        flex: none;
-        max-height: 300px;
-      }
-
-      .content {
-        max-height: none;
-      }
-
-      .header h1 {
-        font-size: 1.8rem;
-      }
-    }
-
-    /* 滚动条样式 */
-    .content::-webkit-scrollbar,
-    .toc-sidebar::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .content::-webkit-scrollbar-track,
-    .toc-sidebar::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-
-    .content::-webkit-scrollbar-thumb,
-    .toc-sidebar::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 10px;
-    }
-
-    .content::-webkit-scrollbar-thumb:hover,
-    .toc-sidebar::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 2rem;
-      color: #666;
-      margin-top: 2rem;
     }
   </style>
 </head>
 
 <body>
-  <div class="header">
-    <h1>📚 TOC Menu</h1>
-    <p>轻量级的目录导航组件 - 自动生成可交互的目录菜单</p>
-    <a href="#" class="github-link">⭐ GitHub</a>
-  </div>
-
-  <div class="container">
-    <!-- 目录侧边栏 -->
-    <aside class="toc-sidebar">
-      <h3>📑 目录导航</h3>
-      <div id="toc-container"></div>
-    </aside>
-
+  <div class="container flex m-auto">
     <!-- 内容区域 -->
-    <div class="content-wrapper">
-      <article class="content" id="content">
+    <div class="content-wrapper flex-1 p-4 ">
+      <article class="content prose-custom max-w-none">
         <h1 id="introduction">简介</h1>
         <p>
           TOC Menu 是一个轻量级的目录导航组件，能够自动扫描页面中的标题标签（H1-H6），
@@ -274,7 +104,8 @@
 # 或者
 yarn add toc-nav
 # 或者
-pnpm add toc-nav</code></pre>
+pnpm add toc-nav
+</code></pre>
 
         <h3 id="npm-usage">npm 使用示例</h3>
         <div class="usage-example">
@@ -453,10 +284,11 @@ toc.refresh();</code></pre>
         </p>
       </article>
     </div>
-  </div>
 
-  <div class="footer">
-    <p>Made with ❤️ by TOC Menu | MIT License</p>
+    <!-- 目录侧边栏 -->
+    <aside class="toc-sidebar text-sm w-60 sticky top-10 h-fit shadow-xl p-4">
+      <div id="toc-container"></div>
+    </aside>
   </div>
 
   <!-- 引入组件脚本 -->
@@ -464,12 +296,9 @@ toc.refresh();</code></pre>
   <script>
     // 初始化 TOC Menu
     const toc = new TocMenu.TocMenu({
-      contentElement: document.getElementById('content'),
-      tocElement: document.getElementById('toc-container'),
-      useHash: true
+      contentElement: document,
+      tocElement: document.querySelector('#toc-container')
     });
-
-    console.log('TOC Menu initialized successfully!');
   </script>
 </body>
 
