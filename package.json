@@ -34,7 +34,9 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && npm run copy:css && npm run copy:docs",
+    "copy:css": "node -e \"require('fs').copyFileSync('src/style.css', 'dist/style.css')\"",
+    "copy:docs": "node -e \"require('fs').mkdirSync('docs/dist', {recursive: true})\" && node -e \"require('fs').copyFileSync('dist/index.global.js', 'docs/dist/index.global.js')\" && node -e \"require('fs').copyFileSync('dist/style.css', 'docs/dist/style.css')\"",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
