@@ -30,12 +30,9 @@ export class TocMenu {
       const container = this.config.contentElement;
       // 兼容 document 的情况：document 不支持 scroll 事件，需要监听 window
       const scrollTarget = container === document || container === document.body ? window : container;
-
       const onContentScrollHandler = () => {
         if (this.isManualScrolling) return;
         const isBottom = checkIsBottom(container);
-        console.log('isBottom', isBottom);
-
         this.isScrollBottom = isBottom;
         // 此时不再信任 IntersectionObserver 的"碰线"逻辑：直接把高亮给最后一个
         if (isBottom) this.doHighlight(this.tocData[this.tocData.length - 1].id);
@@ -76,8 +73,6 @@ export class TocMenu {
    */
   private initIntersection() {
     const onObserver = (entries?: IntersectionObserverEntry[]) => {
-      console.log('this.isScrollBottom', this.isScrollBottom);
-
       if (entries && entries.length > 0 && !this.isManualScrolling && !this.isScrollBottom) {
         const intersectingEntries = entries.filter((entry) => entry.isIntersecting);
         if (intersectingEntries.length > 0) {
@@ -90,7 +85,6 @@ export class TocMenu {
     const root = this.config.contentElement === document || this.config.contentElement === document.body
       ? null
       : this.config.contentElement;
-
     this.observer = new IntersectionObserver(onObserver, {
       root,
       rootMargin: '10px 0px -90% 0px', // 根元素的外边距
@@ -119,7 +113,6 @@ export class TocMenu {
       // ---  如果点击目标和当前位置相等，说名不需要执行滚动 (防止原地踏步导致的锁死) ---
       const isMove = checkScrollMove(container, targetEl);
       if (!isMove) return (this.isManualScrolling = false);
-
       // --- 否则才滚动 ---
       targetEl.scrollIntoView({ behavior: 'smooth' });
       // 兼容 document 的情况：document 不支持 scrollend 事件，需要监听 window
@@ -143,49 +136,42 @@ export class TocMenu {
   }
 
   /**
-   * 刷新 TOC 状态
-   * 适用于编辑器内容变更、异步数据加载等场景
-   */
-  // public refresh() {
-  //   // 1. 停止之前的观测，防止内存泄漏和冗余回调
-  //   this.observer?.disconnect();
-  //   // 2. 重新扫描最新的标题数据
-  //   this.tocData = scanHeadings(this.config.contentElement);
-  //   // 3. 重新渲染 TOC 菜单 UI
-  //   this.renderToc();
-  //   // 4. 重新初始化 IntersectionObserver 监听最新的 DOM 节点
-  //   this.tocData.forEach((item) => {
-  //     const el = document.getElementById(item.id);
-  //     if (el) this.observer?.observe(el);
-  //   });
-  //   // 5. 保底逻辑：如果刷新后页面就在顶部/底部，手动触发一次高亮校准
-  //   const container = this.config.contentElement;
-  //   if (checkIsBottom(container)) this.doHighlight(this.tocData[this.tocData.length - 1]?.id);
-  // }
-
+ * 刷新 TOC 状态
+ * 适用于编辑器内容变更、异步数据加载等场景
+ */
   public refresh() {
-    const container = this.config.contentElement as HTMLElement;
+    const container = this.config.contentElement;
     const newData = scanHeadings(container);
-    // 1. 深度对比避免无效渲染
-    if (JSON.stringify(newData) === JSON.stringify(this.tocData)) return;
-    // 2. 状态获取：在更新前，先看现在是谁在亮
+    if (JSON.stringify(newData) === JSON.stringify(this.tocData)) return; // 对比->避免无效渲染
+    // 在更新前，先看现在是谁在亮
     const oldActiveId = this.config.tocElement.querySelector('.active')?.getAttribute('data-id');
-    // 3. 更新数据
-    this.tocData = newData;
-    // 4. 核心逻辑：计算新的高亮目标
-    let nextActiveId = oldActiveId;
-    // 如果当前已经在底部（或非常接近底部），
-    // 或者当前输入的位置就是在最后一个标题之后
-    if (checkIsBottom(container) || checkIsBottom(container)) {
-      nextActiveId = this.tocData[this.tocData.length - 1]?.id;
-    }
-    // 5. 渲染（带上计算出的 ID）
-    this.renderToc(nextActiveId || '');
-    // 6. 重新观测
-    this.observer?.disconnect();
+    this.tocData = newData; // 更新数据
+    let nextActiveId = oldActiveId; // 计算新的高亮目标
+    // 如果当前已经在底部（或非常接近底部），或者当前输入的位置就是在最后一个标题之后
+    if (checkIsBottom(container) || checkIsBottom(container)) nextActiveId = this.tocData[this.tocData.length - 1]?.id;
+    this.renderToc(nextActiveId || ''); // 渲染（带上计算出的 ID）
+    this.observer?.disconnect(); // 重新观测
     this.tocData.forEach((item) => {
       const el = document.getElementById(item.id);
       if (el) this.observer?.observe(el);
     });
   }
 }
+
+// public refresh() {
+//   // 停止之前的观测，防止内存泄漏和冗余回调
+//   this.observer?.disconnect();
+//   // 重新扫描最新的标题数据
+//   this.tocData = scanHeadings(this.config.contentElement);
+//   // 重新渲染 TOC 菜单 UI
+//   this.renderToc();
+//   // 重新初始化 IntersectionObserver 监听最新的 DOM 节点
+//   this.tocData.forEach((item) => {
+//     const el = document.getElementById(item.id);
+//     if (el) this.observer?.observe(el);
+//   });
+//   // 保底逻辑：如果刷新后页面就在顶部/底部，手动触发一次高亮校准
+//   const container = this.config.contentElement;
+//   if (checkIsBottom(container)) this.doHighlight(this.tocData[this.tocData.length - 1]?.id);
+// }
+
