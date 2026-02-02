@@ -30,17 +30,16 @@ npm install toc-nav
 
 ```html
 <!-- 引入组件 -->
-<script src="./toc-nav/dist/index.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/toc-nav"></script>
 
 <!-- 引入样式 -->
-<link rel="stylesheet" href="./toc-nav/dist/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toc-nav/docs/dist/style.css">
 
 <script>
   // 全局变量 TocMenu 可用
   const toc = new TocMenu.TocMenu({
     contentElement: document.getElementById('content'),
-    tocElement: document.getElementById('toc-container'),
-    useHash: true
+    tocElement: document.getElementById('toc-container')
   });
 </script>
 ```
@@ -96,7 +95,7 @@ const toc = new TocMenu({
 <html>
 <head>
   <title>TOC Menu Demo</title>
-  <link rel="stylesheet" href="./toc-nav/dist/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toc-nav/docs/dist/style.css">
 </head>
 <body>
   <!-- 目录容器 -->
@@ -117,7 +116,7 @@ const toc = new TocMenu({
     <p>内容...</p>
   </div>
 
-  <script src="./toc-nav/dist/index.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toc-nav"></script>
   <script>
     new TocMenu.TocMenu({
       contentElement: document.getElementById('content'),

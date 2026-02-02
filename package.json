@@ -1,6 +1,6 @@
 {
   "name": "toc-nav",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "一个轻量级的目录导航组件，自动生成页面标题的可交互目录菜单",
   "keywords": [
     "toc",
@@ -8,6 +8,8 @@
   ],
   "author": "丁少华",
   "license": "MIT",
+  "unpkg": "docs/dist/index.global.js",
+  "jsdelivr": "docs/dist/index.global.js",
   "exports": {
     ".": {
       "types": "./docs/dist/index.d.ts",
