@@ -4,39 +4,24 @@
   "description": "一个轻量级的目录导航组件，自动生成页面标题的可交互目录菜单",
   "keywords": [
     "toc",
-    "table-of-contents",
-    "menu",
-    "navigation",
-    "scroll",
-    "highlight"
+    "table-of-contents"
   ],
-  "author": "",
+  "author": "丁少华",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      }
+      "types": "./docs/dist/index.d.ts",
+      "import": "./docs/dist/index.mjs"
     },
-    "./style.css": "./src/style.css"
+    "./style.css": "./docs/dist/style.css"
   },
   "files": [
-    "dist",
-    "src/style.css",
+    "docs/dist",
     "README.md"
   ],
   "scripts": {
-    "build": "tsup && npm run copy:css && npm run copy:docs",
-    "copy:css": "node -e \"require('fs').copyFileSync('src/style.css', 'dist/style.css')\"",
-    "copy:docs": "node -e \"require('fs').mkdirSync('docs/dist', {recursive: true})\" && node -e \"require('fs').copyFileSync('dist/index.global.js', 'docs/dist/index.global.js')\" && node -e \"require('fs').copyFileSync('dist/style.css', 'docs/dist/style.css')\"",
+    "dev": "concurrently \"tsup --watch\" \"live-server docs\"",
+    "build": "tsup",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
@@ -45,6 +30,8 @@
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^25.2.0",
+    "concurrently": "^9.2.1",
+    "live-server": "^1.2.2",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }

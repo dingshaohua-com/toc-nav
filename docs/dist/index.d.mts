@@ -1,5 +1,5 @@
 interface Config {
-    contentElement: HTMLElement;
+    contentElement: HTMLElement | Document;
     tocElement: HTMLElement;
     useHash: boolean;
 }
@@ -38,9 +38,9 @@ declare class TocMenu {
      */
     private doHighlight;
     /**
-     * 刷新 TOC 状态
-     * 适用于编辑器内容变更、异步数据加载等场景
-     */
+   * 刷新 TOC 状态
+   * 适用于编辑器内容变更、异步数据加载等场景
+   */
     refresh(): void;
 }
 
