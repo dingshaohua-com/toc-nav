@@ -38,16 +38,17 @@ export const getHash = () => {
  */
 export const renderTocHelper = (activeId: string, tocElement: HTMLElement, tocData: TocItem[], onClick: (id: string) => void) => {
   tocElement.innerHTML = `
-      <div class="toc-title">目录</div>
+     <div class="toc-title">目录</div>
       <ul class="toc-list">
+       
         ${tocData
-          .map((item) => {
-            const isActive = item.id === activeId ? 'active' : '';
-            return `<li class="toc-item level-${item.level} ${isActive}" data-id="${item.id}">
+      .map((item) => {
+        const isActive = item.id === activeId ? 'active' : '';
+        return `<li class="toc-item level-${item.level} ${isActive}" data-id="${item.id}">
             <a href="#${item.id}" data-anchor="${item.id}">${item.text}</a>
           </li>`;
-          })
-          .join('')}
+      })
+      .join('')}
       </ul>
     `;
   // 2. 绑定事件委托

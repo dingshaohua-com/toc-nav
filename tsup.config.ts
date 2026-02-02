@@ -9,7 +9,6 @@ export default defineConfig({
   splitting: false, // 不分割代码
   sourcemap: true, // 生成 sourcemap
   globalName: 'TocMenu', // IIFE 格式的全局变量名
-  external: ['lodash-es'], // lodash-es 作为外部依赖
   outDir: 'docs/dist',
   publicDir: true
 });

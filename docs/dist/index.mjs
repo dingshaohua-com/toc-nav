@@ -37,8 +37,9 @@ var getHash = () => {
 };
 var renderTocHelper = (activeId, tocElement, tocData, onClick) => {
   tocElement.innerHTML = `
-      <div class="toc-title">\u76EE\u5F55</div>
+     <div class="toc-title">\u76EE\u5F55</div>
       <ul class="toc-list">
+       
         ${tocData.map((item) => {
     const isActive = item.id === activeId ? "active" : "";
     return `<li class="toc-item level-${item.level} ${isActive}" data-id="${item.id}">
@@ -156,9 +157,9 @@ var TocMenu = class {
     const root = this.config.contentElement === document || this.config.contentElement === document.body ? null : this.config.contentElement;
     this.observer = new IntersectionObserver(onObserver, {
       root,
-      rootMargin: "10px 0px -90% 0px"
+      rootMargin: "0px 0px -90% 0px",
       // 根元素的外边距
-      // threshold: Array.from({ length: 10 }, (_, i) => i * 0.1),
+      threshold: Array.from({ length: 10 }, (_, i) => i * 0.1)
     });
     this.tocData.forEach((item) => {
       var _a;
