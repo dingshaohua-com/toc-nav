@@ -110,10 +110,10 @@ pnpm add toc-nav
         <h3 id="npm-usage">npm 使用示例</h3>
         <div class="usage-example">
           <p>在你的项目中引入并使用：</p>
-          <pre><code>import { TocMenu } from 'toc-nav';
+          <pre><code>import { TocNav } from 'toc-nav';
 import 'toc-nav/style.css';
 
-const toc = new TocMenu({
+const toc = new TocNav({
   contentElement: document.getElementById('content'),
   tocElement: document.getElementById('toc-container'),
   useHash: true
@@ -129,7 +129,7 @@ const toc = new TocMenu({
 &lt;script src="./toc-nav/dist/index.global.js"&gt;&lt;/script&gt;
 
 &lt;script&gt;
-  new TocMenu.TocMenu({
+  new TocNav.TocNav({
     contentElement: document.getElementById('content'),
     tocElement: document.getElementById('toc-container'),
     useHash: true
@@ -295,7 +295,7 @@ toc.refresh();</code></pre>
   <script src="./dist/index.global.js"></script>
   <script>
     // 初始化 TOC Menu
-    const toc = new TocMenu.TocMenu({
+    const toc = new TocNav.TocNav({
       contentElement: document,
       tocElement: document.querySelector('#toc-container')
     });

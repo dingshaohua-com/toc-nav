@@ -1,7 +1,7 @@
 import type { Config, TocItem } from './type';
 import { checkIsBottom, checkScrollMove, getHash, renderTocHelper, scanHeadings } from './utils';
 
-export class TocMenu {
+export class TocNav {
   private tocData: TocItem[] = [];
   private config: Config = {
     contentElement: document.body,

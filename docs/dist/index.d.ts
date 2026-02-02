@@ -4,7 +4,7 @@ interface Config {
     useHash: boolean;
 }
 
-declare class TocMenu {
+declare class TocNav {
     private tocData;
     private config;
     private observer;
@@ -44,4 +44,4 @@ declare class TocMenu {
     refresh(): void;
 }
 
-export { TocMenu };
+export { TocNav };

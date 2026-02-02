@@ -85,7 +85,7 @@ var checkIsBottom = (container) => {
 };
 
 // src/index.ts
-var TocMenu = class {
+var TocNav = class {
   constructor(config) {
     this.tocData = [];
     this.config = {
@@ -222,6 +222,6 @@ var TocMenu = class {
   }
 };
 export {
-  TocMenu
+  TocNav
 };
 //# sourceMappingURL=index.mjs.map

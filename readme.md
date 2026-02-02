@@ -36,8 +36,8 @@ npm install toc-nav
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toc-nav/docs/dist/style.css">
 
 <script>
-  // 全局变量 TocMenu 可用
-  const toc = new TocMenu.TocMenu({
+  // 全局变量 TocNav 可用
+  new TocNav.TocNav({
     contentElement: document.getElementById('content'),
     tocElement: document.getElementById('toc-container')
   });
@@ -55,36 +55,33 @@ cd toc-nav
 npm install
 ```
 
-2. 构建项目
+2. 启动用例
+```bash
+npm run dev
+```
+示例页面将自动打开！
+
+3. 构建项目
+其实启动用例的时候，就会触发自动构建！
 ```bash
 npm run build
 ```
-
-3. 在浏览器中打开 `docs/index.html` 文件，即可查看示例
-
-示例页面展示了：
-- ✅ 完整的目录导航功能
-- ✅ 多层级标题结构
-- ✅ 美观的布局和样式
-- ✅ 响应式设计
-- ✅ 实际使用场景
 
 ## 快速开始
 
 ### npm 方式
 
 ```javascript
-import 'toc-nav/dist/style.css';
-import { TocMenu } from 'toc-nav';
+import 'toc-nav/style.css';
+import { TocNav } from 'toc-nav';
 
 // 创建目录容器
 const tocElement = document.getElementById('toc-container');
 
 // 初始化 TOC
-const toc = new TocMenu({
+new TocNav({
   contentElement: document.getElementById('content'), // 内容容器
   tocElement: tocElement,                             // 目录容器
-  useHash: true                                       // 是否使用 URL Hash
 });
 ```
 
@@ -118,10 +115,9 @@ const toc = new TocMenu({
 
   <script src="https://cdn.jsdelivr.net/npm/toc-nav"></script>
   <script>
-    new TocMenu.TocMenu({
+    new TocNav.TocNav({
       contentElement: document.getElementById('content'),
-      tocElement: document.getElementById('toc-container'),
-      useHash: true
+      tocElement: document.getElementById('toc-container')
     });
   </script>
 </body>
@@ -150,7 +146,7 @@ const toc = new TocMenu({
 ### 构造函数
 
 ```typescript
-new TocMenu(config: Config)
+new TocNav(config: Config)
 ```
 
 #### Config 配置项
@@ -159,7 +155,6 @@ new TocMenu(config: Config)
 |------|------|------|------|
 | `contentElement` | `HTMLElement` | 是 | 需要扫描标题的内容容器元素 |
 | `tocElement` | `HTMLElement` | 是 | 用于渲染目录的容器元素 |
-| `useHash` | `boolean` | 否 | 是否使用 URL Hash，默认 `true` |
 
 ### 实例方法
 
@@ -171,10 +166,9 @@ new TocMenu(config: Config)
 - 动态添加/删除标题
 
 ```javascript
-const toc = new TocMenu({
+const toc = new TocNav({
   contentElement: document.getElementById('content'),
-  tocElement: document.getElementById('toc-container'),
-  useHash: true
+  tocElement: document.getElementById('toc-container')
 });
 
 // 内容更新后刷新目录
@@ -223,10 +217,9 @@ setTimeout(() => {
 ```javascript
 const scrollContainer = document.getElementById('scroll-container');
 
-const toc = new TocMenu({
+new TocNav({
   contentElement: scrollContainer,
   tocElement: document.getElementById('toc-container'),
-  useHash: true
 });
 ```
 
@@ -238,7 +231,7 @@ const toc = new TocMenu({
 
 ```jsx
 import { useEffect, useRef } from 'react';
-import { TocMenu } from 'toc-nav';
+import { TocNav } from 'toc-nav';
 import 'toc-nav/style.css';
 
 function App() {
@@ -248,10 +241,9 @@ function App() {
 
   useEffect(() => {
     if (contentRef.current && tocRef.current) {
-      tocInstanceRef.current = new TocMenu({
+      tocInstanceRef.current = new TocNav({
         contentElement: contentRef.current,
-        tocElement: tocRef.current,
-        useHash: true
+        tocElement: tocRef.current
       });
     }
   }, []);
@@ -288,7 +280,7 @@ function App() {
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { TocMenu } from 'toc-nav';
+import { TocNav } from 'toc-nav';
 import 'toc-nav/style.css';
 
 const tocContainer = ref(null);
@@ -296,10 +288,9 @@ const contentContainer = ref(null);
 let tocInstance = null;
 
 onMounted(() => {
-  tocInstance = new TocMenu({
+  tocInstance = new TocNav({
     contentElement: contentContainer.value,
-    tocElement: tocContainer.value,
-    useHash: true
+    tocElement: tocContainer.value
   });
 });
 
@@ -308,18 +299,6 @@ const handleContentUpdate = () => {
   tocInstance?.refresh();
 };
 </script>
-```
-
-### 禁用 Hash
-
-如果不希望在 URL 中显示 Hash：
-
-```javascript
-const toc = new TocMenu({
-  contentElement: document.getElementById('content'),
-  tocElement: document.getElementById('toc-container'),
-  useHash: false
-});
 ```
 
 ## 浏览器兼容性
@@ -346,7 +325,6 @@ interface TocItem {
 interface Config {
   contentElement: HTMLElement;  // 内容容器
   tocElement: HTMLElement;      // 目录容器
-  useHash: boolean;             // 是否使用 Hash
 }
 ```
 
@@ -355,7 +333,7 @@ interface Config {
 1. **标题必须有 ID**：确保你的标题标签都有唯一的 `id` 属性，组件才能正确生成锚点链接
 2. **容器滚动**：如果内容在特定容器内滚动（而非整个页面），请将该容器传入 `contentElement`
 3. **动态内容**：如果内容是动态加载的，记得在内容加载完成后调用 `refresh()` 方法
-4. **CDN 使用**：通过 CDN 引入时，组件导出在 `TocMenu` 命名空间下，需要使用 `TocMenu.TocMenu` 访问类
+4. **CDN 使用**：通过 CDN 引入时，组件导出在 `TocNav` 命名空间下，需要使用 `TocNav.TocNav` 访问类
 
 ## 打包说明
 
@@ -412,7 +390,7 @@ MIT
 
 ## 更新日志
 
-### 0.0.1
+### 0.0.5
 - 初始版本
 - 支持自动扫描标题
 - 支持滚动高亮

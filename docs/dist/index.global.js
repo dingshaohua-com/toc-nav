@@ -1,5 +1,5 @@
 "use strict";
-var TocMenu = (() => {
+var TocNav = (() => {
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -35,7 +35,7 @@ var TocMenu = (() => {
   // src/index.ts
   var index_exports = {};
   __export(index_exports, {
-    TocMenu: () => TocMenu
+    TocNav: () => TocNav
   });
 
   // src/utils.ts
@@ -108,7 +108,7 @@ var TocMenu = (() => {
   };
 
   // src/index.ts
-  var TocMenu = class {
+  var TocNav = class {
     constructor(config) {
       this.tocData = [];
       this.config = {

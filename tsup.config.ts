@@ -8,7 +8,7 @@ export default defineConfig({
   minify: false, // 压缩代码
   splitting: false, // 不分割代码
   sourcemap: true, // 生成 sourcemap
-  globalName: 'TocMenu', // IIFE 格式的全局变量名
+  globalName: 'TocNav', // IIFE 格式的全局变量名
   outDir: 'docs/dist',
   publicDir: true
 });
