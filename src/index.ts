@@ -88,7 +88,6 @@ export class TocMenu {
     this.observer = new IntersectionObserver(onObserver, {
       root,
       rootMargin: '0px 0px -90% 0px', // 根元素的外边距
-      threshold: Array.from({ length: 10 }, (_, i) => i * 0.1),
     });
     this.tocData.forEach((item) => {
       const el = document.getElementById(item.id);
